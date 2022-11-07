@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import ContainersContext from "../../Contexts/ContainersContext";
+import sizes from "../../data/sizes";
 
 const LineC = ({ container }) => {
   const { setDeleteData, setModalData } = useContext(ContainersContext);
@@ -10,6 +11,7 @@ const LineC = ({ container }) => {
         <div className="line__content">
           <div className="line__content__info">
             <h3 className="line__content__title">{container.number}</h3>
+            <div>{container.size}</div>
             <div className="btn__box">
               <button
                 type="button"

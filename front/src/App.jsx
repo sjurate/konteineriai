@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.scss";
 import Nav from "./Components/Nav";
 import Home from "./Components/home/MainH";
+import Containers from "./Components/containers/MainC";
+import Boxes from "./Components/boxes/MainB";
 import LoginPage from "./Components/loging/LoginPage";
 import LogoutPage from "./Components/loging/LogoutPage";
 import Messages from "./Components/Messages";

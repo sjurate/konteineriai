@@ -27,7 +27,15 @@ const CreateB = () => {
     if (item_title.length === 0 || item_title.length > 30) {
       setMsg("Incorrect title of the item in the box");
       return;
-    } else {
+    } else if (short_term === 3) {
+      setMsg("You must choose all properties from selections");
+      return;
+    }
+    // if (weight > 500 || weight < 1) {
+    //   setMsg("Invalid weight. Allowed items from 1 kg to 500 kg");
+    //   return;
+    // } else {
+    else {
       setCreateData({
         weight,
         item_title,
@@ -62,18 +70,19 @@ const CreateB = () => {
         <div className="mb-3">
           <label className="form-label">Weight</label>
           <input
-            type="text"
+            type="number"
             className="form-control"
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
           />
-        </div>{" "}
+        </div>
         <div className="mb-3">
           <label className="form-label">Is item FLAMMABLE?</label>
           <select
             value={flammable}
             onChange={(e) => setFlammable(e.target.value)}
           >
+            <option value={3}>Choose from list</option>
             <option value={0}>No</option>
             <option value={1}>Yes</option>
           </select>
@@ -84,6 +93,7 @@ const CreateB = () => {
             value={short_term}
             onChange={(e) => setShort_term(e.target.value)}
           >
+            <option value={3}>Choose from list</option>
             <option value={0}>No</option>
             <option value={1}>Yes</option>
           </select>
@@ -94,9 +104,11 @@ const CreateB = () => {
             value={container_id}
             onChange={(e) => setContainer_id(e.target.value)}
           >
-            {containers.map((c, i) => (
-              <option key={i} value={c.container_id}>
-                {c.number}
+            <option value={3}>Choose from list</option>
+
+            {containers?.map((c, i) => (
+              <option key={i} value={c.id}>
+                {c.id}
               </option>
             ))}
           </select>

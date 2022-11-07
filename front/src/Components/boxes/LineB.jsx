@@ -25,22 +25,22 @@ const LineB = ({ box }) => {
             <div>Flammable? {box.flammable ? "True" : "False"}</div>
             <div>Short term? {box.short_term ? "True" : "False"}</div>
             <div>Container: {box.container_id}</div>
-            <div className="btn__box">
-              <button
-                type="button"
-                className="btn btn-outline-success"
-                onClick={() => setModalData(box)}
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline-danger"
-                onClick={() => setDeleteData(box)}
-              >
-                Delete
-              </button>
-            </div>
+          </div>
+          <div className="btn__box">
+            <button
+              type="button"
+              className="btn btn-outline-success"
+              onClick={() => setModalData(box)}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-danger"
+              onClick={() => setDeleteData(box)}
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>

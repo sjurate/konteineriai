@@ -26,7 +26,7 @@ const CreateC = () => {
   };
 
   const generateNumber = () => {
-    let n = rand(100000);
+    let n = rand(100000, 999999);
     setNumber(n);
   };
 

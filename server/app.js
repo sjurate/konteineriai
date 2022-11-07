@@ -129,12 +129,28 @@ app.post("/home/containers", (req, res) => {
   });
 });
 
-// READ CONTAINER for admin and users
+// READ CONTAINER for admin
 
 app.get("/home/containers", (req, res) => {
   const sql = `
     SELECT id, number, size
     FROM containers
+    `;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
+//READ CONTAINERS WITH ITEMS for users
+
+app.get("/home/joined", (req, res) => {
+  const sql = `
+    SELECT c.*, b.id AS bid, b.item_title, b.weight, b.image, b.flammable, b.short_term
+    FROM containers AS c
+    LEFT JOIN boxes AS b
+    ON b.container_id = c.id
+    ORDER BY c.id
     `;
   con.query(sql, (err, result) => {
     if (err) throw err;
@@ -173,69 +189,23 @@ app.delete("/home/containers/:id", (req, res) => {
   });
 });
 
-//  CREATE SRITIS for admin
+//  CREATE BOX for admin
 
-app.post("/home/sritys", (req, res) => {
+app.post("/home/boxes", (req, res) => {
   const sql = `
-    INSERT INTO sritys (title)
-    VALUES (?)
-    `;
-  con.query(sql, [req.body.title], (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
-});
-
-// READ SRITYS for admin and users
-
-app.get("/home/sritys", (req, res) => {
-  const sql = `
-    SELECT id, title
-    FROM sritys
-    `;
-  con.query(sql, (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
-});
-
-// UPDATE SRITIS for admin
-
-app.put("/home/sritys/:id", (req, res) => {
-  const sql = `
-    UPDATE sritys
-    SET title = ?
-    WHERE id = ?
-    `;
-  con.query(sql, [req.body.title, req.params.id], (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
-});
-
-// DELETE SRITIS for admin
-
-app.delete("/home/sritys/:id", (req, res) => {
-  const sql = `
-    DELETE FROM sritys
-    WHERE id = ?
-    `;
-  con.query(sql, [req.params.id], (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
-});
-
-// CREATE KOMENTARAS
-
-app.post("/home/komentarai", (req, res) => {
-  const sql = `
-    INSERT INTO komentarai (post, savivaldybe_id, sritis_id)
-    VALUES (?, ?, ?)
+    INSERT INTO boxes (item_title, weight, image, flammable, short_term, container_id)
+    VALUES (?, ?, ?, ?, ?, ?)
     `;
   con.query(
     sql,
-    [req.body.post, req.body.savivaldybe_id, req.body.sritis_id],
+    [
+      req.body.item_title,
+      req.body.weight,
+      req.body.image,
+      req.body.flammable,
+      req.body.short_term,
+      req.body.container_id,
+    ],
     (err, result) => {
       if (err) throw err;
       res.send(result);
@@ -243,60 +213,50 @@ app.post("/home/komentarai", (req, res) => {
   );
 });
 
-// READ KOMENTARAI viesas
+// READ BOXES for admin
 
-app.get("/home/komentarai", (req, res) => {
+app.get("/home/boxes", (req, res) => {
   const sql = `
-  SELECT k.*, s.title AS savivaldybeTitle, s.id AS sid, s.image AS savivaldybeImage, sr.title AS sritisTitle, sr.id AS srid
-  FROM komentarai AS k
-  INNER JOIN savivaldybes AS s
-  ON k.savivaldybe_id = s.id
-  INNER JOIN sritys AS sr
-  ON k.sritis_id = sr.id
-  WHERE k.status = 1
-  `;
+    SELECT *
+    FROM boxes
+    `;
   con.query(sql, (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 });
 
-// READ KOMENTARAI for admin
+// UPDATE BOX for admin
 
-app.get("/server/komentarai", (req, res) => {
+app.put("/home/boxes/:id", (req, res) => {
   const sql = `
-  SELECT k.*, s.title AS savivaldybeTitle, s.id AS sid, sr.title AS sritisTitle, sr.id AS srid
-  FROM komentarai AS k
-  INNER JOIN savivaldybes AS s
-  ON k.savivaldybe_id = s.id
-  INNER JOIN sritys AS sr
-  ON k.sritis_id = sr.id
-  `;
-  con.query(sql, (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
-});
-
-// UPDATE KOMENTARAS for admin
-
-app.put("/home/komentarai/:id", (req, res) => {
-  const sql = `
-    UPDATE komentarai
-    SET status = ?
+    UPDATE boxes
+    SET item_title = ?, weight = ?, image = ?, flammable = ?, short_term = ?, container_id = ?
     WHERE id = ?
     `;
-  con.query(sql, [req.body.status, req.params.id], (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
+  con.query(
+    sql,
+    [
+      req.body.item_title,
+      req.body.weight,
+      req.body.image,
+      req.body.flammable,
+      req.body.short_term,
+      req.body.container_id,
+      req.params.id,
+    ],
+    (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    }
+  );
 });
 
-// DELETE KOMENTARAS for admin
+// DELETE BOX for admin
 
-app.delete("/server/komentarai/:id", (req, res) => {
+app.delete("/home/boxes/:id", (req, res) => {
   const sql = `
-    DELETE FROM komentarai
+    DELETE FROM boxes
     WHERE id = ?
     `;
   con.query(sql, [req.params.id], (err, result) => {
@@ -304,6 +264,85 @@ app.delete("/server/komentarai/:id", (req, res) => {
     res.send(result);
   });
 });
+
+// // CREATE KOMENTARAS
+
+// app.post("/home/komentarai", (req, res) => {
+//   const sql = `
+//     INSERT INTO komentarai (post, savivaldybe_id, sritis_id)
+//     VALUES (?, ?, ?)
+//     `;
+//   con.query(
+//     sql,
+//     [req.body.post, req.body.savivaldybe_id, req.body.sritis_id],
+//     (err, result) => {
+//       if (err) throw err;
+//       res.send(result);
+//     }
+//   );
+// });
+
+// // READ KOMENTARAI viesas
+
+// app.get("/home/komentarai", (req, res) => {
+//   const sql = `
+//   SELECT k.*, s.title AS savivaldybeTitle, s.id AS sid, s.image AS savivaldybeImage, sr.title AS sritisTitle, sr.id AS srid
+//   FROM komentarai AS k
+//   INNER JOIN savivaldybes AS s
+//   ON k.savivaldybe_id = s.id
+//   INNER JOIN sritys AS sr
+//   ON k.sritis_id = sr.id
+//   WHERE k.status = 1
+//   `;
+//   con.query(sql, (err, result) => {
+//     if (err) throw err;
+//     res.send(result);
+//   });
+// });
+
+// // READ KOMENTARAI for admin
+
+// app.get("/server/komentarai", (req, res) => {
+//   const sql = `
+//   SELECT k.*, s.title AS savivaldybeTitle, s.id AS sid, sr.title AS sritisTitle, sr.id AS srid
+//   FROM komentarai AS k
+//   INNER JOIN savivaldybes AS s
+//   ON k.savivaldybe_id = s.id
+//   INNER JOIN sritys AS sr
+//   ON k.sritis_id = sr.id
+//   `;
+//   con.query(sql, (err, result) => {
+//     if (err) throw err;
+//     res.send(result);
+//   });
+// });
+
+// // UPDATE KOMENTARAS for admin
+
+// app.put("/home/komentarai/:id", (req, res) => {
+//   const sql = `
+//     UPDATE komentarai
+//     SET status = ?
+//     WHERE id = ?
+//     `;
+//   con.query(sql, [req.body.status, req.params.id], (err, result) => {
+//     if (err) throw err;
+//     res.send(result);
+//   });
+// });
+
+// // DELETE KOMENTARAS for admin
+
+// app.delete("/server/komentarai/:id", (req, res) => {
+//   const sql = `
+//     DELETE FROM komentarai
+//     WHERE id = ?
+//     `;
+//   con.query(sql, [req.params.id], (err, result) => {
+//     if (err) throw err;
+//     res.send(result);
+//   });
+// });
 
 app.listen(port, () => {
   console.log(`Siuvykla per ${port} portą!`);

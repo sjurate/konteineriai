@@ -2,75 +2,44 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import HomeContext from "../../Contexts/HomeContext";
 import ListH from "./ListH";
-import CreateH from "./CreateH";
 import { authConfig } from "../../Functions/auth";
 
 const MainH = () => {
-  const [savivaldybes, setSavivaldybes] = useState(null);
-  const [sritys, setSritys] = useState(null);
-  const [komentarai, setKomentarai] = useState(null);
-  const [lastUpdate, setLastUpdate] = useState(Date.now());
-  const [createData, setCreateData] = useState(null);
+  const [containers, setContainers] = useState(null);
+  // const [lastUpdate, setLastUpdate] = useState(Date.now());
 
   const filterOn = useRef(false);
   const filterWhat = useRef(null);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3003/home/savivaldybes", authConfig())
-      .then((res) => {
-        setSavivaldybes(res.data);
-      });
-  }, []);
+  const reList = (data) => {
+    const d = new Map();
+    data.forEach((line) => {
+      if (d.has(line.id)) {
+        d.set(line.id, [...d.get(line.id), line]);
+      } else {
+        d.set(line.id, [line]);
+      }
+    });
+    return [...d];
+  };
 
+  // READ for list
   useEffect(() => {
-    axios.get("http://localhost:3003/home/sritys", authConfig()).then((res) => {
-      setSritys(res.data);
+    axios.get("http://localhost:3003/home/joined", authConfig()).then((res) => {
+      console.log(reList(res.data));
+      setContainers(reList(res.data));
     });
   }, []);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3003/home/komentarai", authConfig())
-      .then((res) => {
-        setKomentarai(res.data.map((d, i) => ({ ...d, show: true, row: i })));
-        console.log(res.data);
-      });
-  }, [lastUpdate]);
-
-  // CREATE KOMENTARAS
-
-  useEffect(() => {
-    if (createData === null) {
-      return;
-    }
-    axios
-      .post("http://localhost:3003/home/komentarai", createData, authConfig())
-      .then((res) => {
-        setLastUpdate(Date.now());
-      });
-    console.log(createData);
-  }, [createData]);
 
   return (
     <HomeContext.Provider
       value={{
-        komentarai,
-        savivaldybes,
-        sritys,
-        setKomentarai,
-        setCreateData,
-        createData,
+        containers,
         filterOn,
         filterWhat,
       }}
     >
       <div className="container">
-        <div className="row">
-          <div className="col col-lg-10 col-md-10 col-sm-12">
-            <CreateH savivaldybes={savivaldybes} />
-          </div>
-        </div>
         <div className="row">
           <div className="col col-lg-10 col-md-12 col-sm-12">
             <ListH />

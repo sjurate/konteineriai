@@ -1,3 +1,3 @@
-const sizes = ["2", "4", "6"];
+const sizes = ["S", "M", "L"];
 
 export default sizes;
