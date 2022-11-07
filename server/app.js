@@ -18,7 +18,7 @@ const con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "viesasis",
+  database: "parcels",
 });
 
 //////////////////// LOGIN START /////////////////
@@ -116,25 +116,25 @@ app.post("/login", (req, res) => {
 
 /////////////////// LOGIN   END ////////////////////
 
-//  CREATE SAVIVALDYBE for admin
+//  CREATE CONTAINER for admin
 
-app.post("/home/savivaldybes", (req, res) => {
+app.post("/home/containers", (req, res) => {
   const sql = `
-    INSERT INTO savivaldybes (title, image)
+    INSERT INTO containers (number, size)
     VALUES (?, ?)
     `;
-  con.query(sql, [req.body.title, req.body.image], (err, result) => {
+  con.query(sql, [req.body.number, req.body.size], (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 });
 
-// READ SAVIVALDYBES for admin and users
+// READ CONTAINER for admin and users
 
-app.get("/home/savivaldybes", (req, res) => {
+app.get("/home/containers", (req, res) => {
   const sql = `
-    SELECT id, title, image
-    FROM savivaldybes
+    SELECT id, number, size
+    FROM containers
     `;
   con.query(sql, (err, result) => {
     if (err) throw err;
@@ -142,29 +142,29 @@ app.get("/home/savivaldybes", (req, res) => {
   });
 });
 
-// UPDATE SAVIVALDYBE for admin
+// UPDATE CONTAINER for admin
 
-app.put("/home/savivaldybes/:id", (req, res) => {
+// app.put("/home/savivaldybes/:id", (req, res) => {
+//   const sql = `
+//     UPDATE savivaldybes
+//     SET title = ?, image = ?
+//     WHERE id = ?
+//     `;
+//   con.query(
+//     sql,
+//     [req.body.title, req.body.image, req.params.id],
+//     (err, result) => {
+//       if (err) throw err;
+//       res.send(result);
+//     }
+//   );
+// });
+
+// DELETE CONTAINER for admin
+
+app.delete("/home/containers/:id", (req, res) => {
   const sql = `
-    UPDATE savivaldybes
-    SET title = ?, image = ?
-    WHERE id = ?
-    `;
-  con.query(
-    sql,
-    [req.body.title, req.body.image, req.params.id],
-    (err, result) => {
-      if (err) throw err;
-      res.send(result);
-    }
-  );
-});
-
-// DELETE SAVIVALDYBE for admin
-
-app.delete("/home/savivaldybes/:id", (req, res) => {
-  const sql = `
-    DELETE FROM savivaldybes
+    DELETE FROM containers
     WHERE id = ?
     `;
   con.query(sql, [req.params.id], (err, result) => {

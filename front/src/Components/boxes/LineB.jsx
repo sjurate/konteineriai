@@ -1,40 +1,44 @@
 import React, { useContext } from "react";
-import SavContext from "../../Contexts/SavContext";
+import BoxesContext from "../../Contexts/BoxesContext";
 
-const LineSav = ({ savivaldybe }) => {
-  const { setDeleteData, setModalData } = useContext(SavContext);
+const LineB = ({ box }) => {
+  const { setDeleteData, setModalData } = useContext(BoxesContext);
 
   return (
     <li className="list-group-item">
       <div className="line__content">
         <div className="line__content__savivaldybe">
           <div className="line__image">
-            {savivaldybe.image ? (
+            {box.image ? (
               <img
                 className="line__image"
-                src={savivaldybe.image}
-                alt={savivaldybe.title}
+                src={box.image}
+                alt={box.item_title}
               ></img>
             ) : (
               <span className="red-image">No image</span>
             )}
           </div>
           <div className="line__content__info">
-            <h3 className="line__content__title">{savivaldybe.title}</h3>
+            <h3 className="line__content__title">{box.item_title}</h3>
+            <div>Weight {box.weight} kg</div>
+            <div>Flammable? {box.flammable ? "True" : "False"}</div>
+            <div>Short term? {box.short_term ? "True" : "False"}</div>
+            <div>Container: {box.container_id}</div>
             <div className="btn__box">
               <button
                 type="button"
                 className="btn btn-outline-success"
-                onClick={() => setModalData(savivaldybe)}
+                onClick={() => setModalData(box)}
               >
-                Koreguoti
+                Edit
               </button>
               <button
                 type="button"
                 className="btn btn-outline-danger"
-                onClick={() => setDeleteData(savivaldybe)}
+                onClick={() => setDeleteData(box)}
               >
-                Ištrinti
+                Delete
               </button>
             </div>
           </div>
@@ -44,4 +48,4 @@ const LineSav = ({ savivaldybe }) => {
   );
 };
 
-export default LineSav;
+export default LineB;

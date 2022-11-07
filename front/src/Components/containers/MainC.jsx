@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SritisContext from "../../Contexts/SritisContext";
-import CreateSritis from "./CreateSritis";
-import ListSritis from "./ListSritis";
-import EditSritis from "./EditSritis";
+import ContainersContext from "../../Contexts/ContainersContext";
+import CreateC from "./CreateC";
+import ListC from "./ListC";
+import EditC from "./EditC";
 import { authConfig } from "../../Functions/auth";
 
-const MainSritis = () => {
-  const [sritys, setSritys] = useState(null);
+const MainC = () => {
+  const [containers, setContainers] = useState(null);
   const [createData, setCreateData] = useState(null);
   const [deleteData, setDeleteData] = useState(null);
   const [modalData, setModalData] = useState(null);
@@ -22,7 +22,7 @@ const MainSritis = () => {
       return;
     }
     axios
-      .post("http://localhost:3003/home/sritys", createData, authConfig())
+      .post("http://localhost:3003/home/containers", createData, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
       });
@@ -31,9 +31,11 @@ const MainSritis = () => {
   // READ ITEMS
 
   useEffect(() => {
-    axios.get("http://localhost:3003/home/sritys", authConfig()).then((res) => {
-      setSritys(res.data);
-    });
+    axios
+      .get("http://localhost:3003/home/containers", authConfig())
+      .then((res) => {
+        setContainers(res.data);
+      });
   }, [lastUpdate]);
 
   // UPDATE ITEM
@@ -44,7 +46,7 @@ const MainSritis = () => {
     }
     axios
       .put(
-        "http://localhost:3003/home/sritys/" + editData.id,
+        "http://localhost:3003/home/containers/" + editData.id,
         editData,
         authConfig()
       )
@@ -61,7 +63,7 @@ const MainSritis = () => {
     }
     axios
       .delete(
-        "http://localhost:3003/home/sritys/" + deleteData.id,
+        "http://localhost:3003/home/containers/" + deleteData.id,
         authConfig()
       )
       .then((res) => {
@@ -70,10 +72,10 @@ const MainSritis = () => {
   }, [deleteData]);
 
   return (
-    <SritisContext.Provider
+    <ContainersContext.Provider
       value={{
         setCreateData,
-        sritys,
+        containers,
         setDeleteData,
         setEditData,
         editData,
@@ -84,16 +86,16 @@ const MainSritis = () => {
       <div className="container">
         <div className="row">
           <div className="col col-lg-4 col-md-12">
-            <CreateSritis />
+            <CreateC />
           </div>
           <div className="col col-lg-8 col-md-12 col-sm-12">
-            <ListSritis />
+            <ListC />
           </div>
         </div>
       </div>
-      <EditSritis />
-    </SritisContext.Provider>
+      <EditC />
+    </ContainersContext.Provider>
   );
 };
 
-export default MainSritis;
+export default MainC;

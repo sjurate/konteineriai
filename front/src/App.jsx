@@ -1,19 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate,
-  //useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.scss";
 import Nav from "./Components/Nav";
 import Home from "./Components/home/MainH";
-import Savivaldybes from "./Components/savivaldybes/MainSav";
-import Sritys from "./Components/sritys/MainSritis";
-import Komentarai from "./Components/komentarai/MainKom";
 import LoginPage from "./Components/loging/LoginPage";
 import LogoutPage from "./Components/loging/LogoutPage";
 import Messages from "./Components/Messages";
@@ -45,26 +36,18 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route
-            path="/savivaldybes"
+            path="/containers"
             element={
               <RequireAuth role="admin">
-                <Savivaldybes />
+                <Containers />
               </RequireAuth>
             }
           ></Route>
           <Route
-            path="/sritys"
+            path="/boxes"
             element={
               <RequireAuth role="admin">
-                <Sritys />
-              </RequireAuth>
-            }
-          ></Route>
-          <Route
-            path="/komentarai"
-            element={
-              <RequireAuth role="admin">
-                <Komentarai />
+                <Boxes />
               </RequireAuth>
             }
           ></Route>

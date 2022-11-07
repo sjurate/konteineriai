@@ -15,7 +15,7 @@ function Nav({ status }) {
           <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
               <span className="navbar-brand" onClick={goHome}>
-                Patark Lietuvai
+                Ship with us
               </span>
               <div>
                 <div className="navbar-nav">
@@ -32,32 +32,22 @@ function Nav({ status }) {
                   ) : null}
                   {status === 3 ? (
                     <NavLink
-                      to="/savivaldybes"
+                      to="/containers"
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link"
                       }
                     >
-                      Savivaldybes
+                      Containers
                     </NavLink>
                   ) : null}
                   {status === 3 ? (
                     <NavLink
-                      to="/sritys"
+                      to="/boxes"
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link"
                       }
                     >
-                      Sritys
-                    </NavLink>
-                  ) : null}
-                  {status === 3 ? (
-                    <NavLink
-                      to="/komentarai"
-                      className={({ isActive }) =>
-                        isActive ? "nav-link active" : "nav-link"
-                      }
-                    >
-                      Komentarai
+                      Boxes
                     </NavLink>
                   ) : null}
                   {status === 3 ? (

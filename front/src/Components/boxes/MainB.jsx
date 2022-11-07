@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SavContext from "../../Contexts/SavContext";
-import CreateSav from "./CreateSav";
-import ListSav from "./ListSav";
-import EditSav from "./EditSav";
+import BoxesContext from "../../Contexts/BoxesContext";
+import CreateB from "./CreateB";
+import ListB from "./ListB";
+import EditB from "./EditB";
 import { authConfig } from "../../Functions/auth";
 
-const MainC = () => {
-  const [savivaldybes, setSavivaldybes] = useState(null);
+const MainB = () => {
+  const [boxes, setBoxes] = useState(null);
+  const [containers, setContainers] = useState(null);
   const [createData, setCreateData] = useState(null);
   const [deleteData, setDeleteData] = useState(null);
   const [modalData, setModalData] = useState(null);
@@ -22,7 +23,7 @@ const MainC = () => {
       return;
     }
     axios
-      .post("http://localhost:3003/home/savivaldybes", createData, authConfig())
+      .post("http://localhost:3003/home/boxes", createData, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
       });
@@ -31,10 +32,18 @@ const MainC = () => {
   // READ ITEMS
 
   useEffect(() => {
+    axios.get("http://localhost:3003/home/boxes", authConfig()).then((res) => {
+      setBoxes(res.data);
+    });
+  }, [lastUpdate]);
+
+  // READ CONTAINERS
+
+  useEffect(() => {
     axios
-      .get("http://localhost:3003/home/savivaldybes", authConfig())
+      .get("http://localhost:3003/home/containers", authConfig())
       .then((res) => {
-        setSavivaldybes(res.data);
+        setContainers(res.data);
       });
   }, [lastUpdate]);
 
@@ -46,7 +55,7 @@ const MainC = () => {
     }
     axios
       .put(
-        "http://localhost:3003/home/savivaldybes/" + editData.id,
+        "http://localhost:3003/home/boxes/" + editData.id,
         editData,
         authConfig()
       )
@@ -62,20 +71,18 @@ const MainC = () => {
       return;
     }
     axios
-      .delete(
-        "http://localhost:3003/home/savivaldybes/" + deleteData.id,
-        authConfig()
-      )
+      .delete("http://localhost:3003/home/boxes/" + deleteData.id, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
       });
   }, [deleteData]);
 
   return (
-    <SavContext.Provider
+    <BoxesContext.Provider
       value={{
         setCreateData,
-        savivaldybes,
+        boxes,
+        containers,
         setDeleteData,
         setEditData,
         editData,
@@ -86,16 +93,16 @@ const MainC = () => {
       <div className="container">
         <div className="row">
           <div className="col col-lg-4 col-md-12">
-            <CreateSav />
+            <CreateB />
           </div>
           <div className="col col-lg-8 col-md-12 col-sm-12">
-            <ListSav />
+            <ListB />
           </div>
         </div>
       </div>
-      <EditSav />
-    </SavContext.Provider>
+      <EditB />
+    </BoxesContext.Provider>
   );
 };
 
-export default MainC;
+export default MainB;

@@ -1,27 +1,27 @@
 import React, { useContext } from "react";
-import SritisContext from "../../Contexts/SritisContext";
+import ContainersContext from "../../Contexts/ContainersContext";
 
-const LineSritis = ({ sritis }) => {
-  const { setDeleteData, setModalData } = useContext(SritisContext);
+const LineC = ({ container }) => {
+  const { setDeleteData, setModalData } = useContext(ContainersContext);
 
   return (
     <li className="list-group-item">
       <div className="line">
         <div className="line__content">
           <div className="line__content__info">
-            <h3 className="line__content__title">{sritis.title}</h3>
+            <h3 className="line__content__title">{container.number}</h3>
             <div className="btn__box">
               <button
                 type="button"
                 className="btn btn-outline-success"
-                onClick={() => setModalData(sritis)}
+                onClick={() => setModalData(container)}
               >
                 Edit
               </button>
               <button
                 type="button"
                 className="btn btn-outline-danger"
-                onClick={() => setDeleteData(sritis)}
+                onClick={() => setDeleteData(container)}
               >
                 Delete
               </button>
@@ -33,4 +33,4 @@ const LineSritis = ({ sritis }) => {
   );
 };
 
-export default LineSritis;
+export default LineC;
