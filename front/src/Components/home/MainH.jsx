@@ -8,9 +8,6 @@ const MainH = () => {
   const [containers, setContainers] = useState(null);
   // const [lastUpdate, setLastUpdate] = useState(Date.now());
 
-  const filterOn = useRef(false);
-  const filterWhat = useRef(null);
-
   const reList = (data) => {
     const d = new Map();
     data.forEach((line) => {
@@ -35,8 +32,6 @@ const MainH = () => {
     <HomeContext.Provider
       value={{
         containers,
-        filterOn,
-        filterWhat,
       }}
     >
       <div className="container">

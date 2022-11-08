@@ -13,7 +13,7 @@ const EditB = () => {
   const [deletePhoto, setDeletePhoto] = useState(false);
   const fileInput = useRef();
 
-  const { setEditData, setModalData, modalData, containers } =
+  const { setEditData, setModalData, modalData, containers, setCountData } =
     useContext(BoxesContext);
   const { setMsg } = useContext(MessagesContext);
 
@@ -40,8 +40,14 @@ const EditB = () => {
       container_id,
       deletePhoto: deletePhoto ? 1 : 0,
     });
+    setCountData({ id: container_id, num: Number(1) });
     setModalData(null);
     setDeletePhoto(false);
+  };
+
+  const closeModal = () => {
+    setCountData({ id: modalData.container_id, num: Number(1) });
+    setModalData(null);
   };
 
   useEffect(() => {
@@ -68,7 +74,7 @@ const EditB = () => {
           <div className="modal-header">
             <h5 className="modal-title">Edit box</h5>
             <button
-              onClick={() => setModalData(null)}
+              onClick={closeModal}
               type="button"
               className="btn-close"
             ></button>

@@ -16,6 +16,7 @@ import MessagesContext from "./Contexts/MessagesContext";
 function App() {
   const [roleChange, setRoleChange] = useState(Date.now());
   const [messages, setMessages] = useState([]);
+  const [showLinks, setShowLinks] = useState(false);
 
   const setMsg = useCallback((text) => {
     const message = {
@@ -32,7 +33,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <MessagesContext.Provider value={{ messages, setMessages, setMsg }}>
+      <MessagesContext.Provider
+        value={{ messages, setMessages, setMsg, showLinks, setShowLinks }}
+      >
         <ShowNav roleChange={roleChange} />
         <Messages />
         <Routes>

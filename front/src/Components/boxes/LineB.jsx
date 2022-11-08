@@ -10,6 +10,11 @@ const LineB = ({ box }) => {
     setCountData({ id: box.container_id, num: Number(-1) });
   };
 
+  const openModal = () => {
+    setModalData(box);
+    setCountData({ id: box.container_id, num: Number(-1) });
+  };
+
   return (
     <li className="list-group-item">
       <div className="line__content">
@@ -36,7 +41,7 @@ const LineB = ({ box }) => {
             <button
               type="button"
               className="btn btn-outline-success"
-              onClick={() => setModalData(box)}
+              onClick={openModal}
             >
               Edit
             </button>
