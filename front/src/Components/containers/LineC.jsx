@@ -32,7 +32,7 @@ const LineC = ({ container }) => {
                         <button
                           type="button"
                           className="btn btn-outline-danger"
-                          onClick={() => setDeleteBox(b)}
+                          onClick={() => setDeleteBox({ ...b, num: -1 })}
                         >
                           X
                         </button>

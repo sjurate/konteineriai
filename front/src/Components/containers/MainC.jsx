@@ -11,6 +11,7 @@ const MainC = () => {
   const [deleteData, setDeleteData] = useState(null);
   const [editData, setEditData] = useState(null);
   const [deleteBox, setDeleteBox] = useState(null);
+  const [increaseData, setIncreaseData] = useState(null);
 
   const [lastUpdate, setLastUpdate] = useState(Date.now());
 
@@ -69,6 +70,7 @@ const MainC = () => {
     if (deleteBox === null) {
       return;
     }
+    console.log(deleteBox);
     axios
       .delete("http://localhost:3003/home/boxes/" + deleteBox.bid, authConfig())
       .then((res) => {
@@ -76,7 +78,22 @@ const MainC = () => {
       });
   }, [deleteBox]);
 
-  console.log(deleteBox);
+  // UPDATE item_count in container
+
+  useEffect(() => {
+    if (deleteBox === null) {
+      return;
+    }
+    axios
+      .put(
+        "http://localhost:3003/home/containers/" + deleteBox.id,
+        deleteBox,
+        authConfig()
+      )
+      .then((res) => {
+        setLastUpdate(Date.now());
+      });
+  }, [deleteBox]);
 
   return (
     <ContainersContext.Provider

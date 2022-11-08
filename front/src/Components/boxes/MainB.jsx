@@ -13,7 +13,7 @@ const MainB = () => {
   const [deleteData, setDeleteData] = useState(null);
   const [modalData, setModalData] = useState(null);
   const [editData, setEditData] = useState(null);
-  const [increaseData, setIncreaseData] = useState(null);
+  const [countData, setCountData] = useState(null);
 
   const [lastUpdate, setLastUpdate] = useState(Date.now());
 
@@ -40,21 +40,23 @@ const MainB = () => {
       });
   }, [createData]);
 
+  // UPDATE item_count in container
+
   useEffect(() => {
-    if (null === increaseData) {
+    if (null === countData) {
       return;
     }
-    console.log(increaseData);
+    console.log(countData);
     axios
       .put(
-        "http://localhost:3003/home/containers/" + increaseData.id,
-        increaseData,
+        "http://localhost:3003/home/containers/" + countData.id,
+        countData,
         authConfig()
       )
       .then((res) => {
         setLastUpdate(Date.now());
       });
-  }, [increaseData]);
+  }, [countData]);
 
   // READ ITEMS
 
@@ -105,7 +107,7 @@ const MainB = () => {
         editData,
         setModalData,
         modalData,
-        setIncreaseData,
+        setCountData,
       }}
     >
       <div className="container">

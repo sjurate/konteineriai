@@ -7,7 +7,7 @@ const LineB = ({ box }) => {
 
   const deleteBox = () => {
     setDeleteData(box);
-    setCountData({ id: box.id, num: Number(-1) });
+    setCountData({ id: box.container_id, num: Number(-1) });
   };
 
   return (

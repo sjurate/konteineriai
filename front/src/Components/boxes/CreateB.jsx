@@ -12,8 +12,7 @@ const CreateB = () => {
   const [photoPrint, setPhotoPrint] = useState(null);
   const fileInput = useRef();
 
-  const { setCreateData, containers, setIncreaseData } =
-    useContext(BoxesContext);
+  const { setCreateData, containers, setCountData } = useContext(BoxesContext);
   const { setMsg } = useContext(MessagesContext);
 
   const handlePhoto = () => {
@@ -47,7 +46,7 @@ const CreateB = () => {
         image: photoPrint,
         container_id,
       });
-      setIncreaseData({
+      setCountData({
         id: container_id,
         num: 1,
       });
