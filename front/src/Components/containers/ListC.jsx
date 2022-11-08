@@ -11,7 +11,7 @@ const ListC = () => {
       <div className="card-body">
         <ul className="list-group">
           {containers?.map((c) => (
-            <LineC key={c.id} container={c} />
+            <LineC key={c[1][0].id} container={c} />
           ))}
         </ul>
       </div>

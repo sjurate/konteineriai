@@ -12,7 +12,8 @@ const CreateB = () => {
   const [photoPrint, setPhotoPrint] = useState(null);
   const fileInput = useRef();
 
-  const { setCreateData, containers } = useContext(BoxesContext);
+  const { setCreateData, containers, setIncreaseData } =
+    useContext(BoxesContext);
   const { setMsg } = useContext(MessagesContext);
 
   const handlePhoto = () => {
@@ -24,25 +25,31 @@ const CreateB = () => {
   };
 
   const addBox = () => {
+    console.log(flammable);
+    console.log(short_term);
+    console.log(container_id);
     if (item_title.length === 0 || item_title.length > 30) {
       setMsg("Incorrect title of the item in the box");
       return;
-    } else if (short_term === 3) {
+    } else if (container_id === "" || short_term === "" || flammable === "") {
       setMsg("You must choose all properties from selections");
       return;
     }
-    // if (weight > 500 || weight < 1) {
-    //   setMsg("Invalid weight. Allowed items from 1 kg to 500 kg");
-    //   return;
-    // } else {
-    else {
+    if (weight > 500 || weight < 1) {
+      setMsg("Invalid weight. Allowed items from 1 kg to 500 kg");
+      return;
+    } else {
       setCreateData({
         weight,
         item_title,
-        flammable,
-        short_term,
+        flammable: Number(flammable),
+        short_term: Number(short_term),
         image: photoPrint,
         container_id,
+      });
+      setIncreaseData({
+        id: container_id,
+        num: 1,
       });
       setItem_title("");
       setWeight("");
@@ -82,9 +89,9 @@ const CreateB = () => {
             value={flammable}
             onChange={(e) => setFlammable(e.target.value)}
           >
-            <option value={3}>Choose from list</option>
-            <option value={0}>No</option>
-            <option value={1}>Yes</option>
+            <option>Choose from list</option>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
           </select>
         </div>
         <div className="mb-3">
@@ -93,9 +100,9 @@ const CreateB = () => {
             value={short_term}
             onChange={(e) => setShort_term(e.target.value)}
           >
-            <option value={3}>Choose from list</option>
-            <option value={0}>No</option>
-            <option value={1}>Yes</option>
+            <option>Choose from list</option>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
           </select>
         </div>
         <div className="mb-3">
@@ -104,7 +111,7 @@ const CreateB = () => {
             value={container_id}
             onChange={(e) => setContainer_id(e.target.value)}
           >
-            <option value={3}>Choose from list</option>
+            <option>Choose from list</option>
 
             {containers?.map((c, i) => (
               <option key={i} value={c.id}>

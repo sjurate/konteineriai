@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useEffect } from "react";
 import ContainersContext from "../../Contexts/ContainersContext";
 import MessagesContext from "../../Contexts/MessagesContext";
 import sizes from "../../data/sizes";
@@ -25,10 +26,10 @@ const CreateC = () => {
     }
   };
 
-  const generateNumber = () => {
+  useEffect(() => {
     let n = rand(100000, 999999);
     setNumber(n);
-  };
+  }, []);
 
   return (
     <div className="card m-4">
@@ -36,12 +37,12 @@ const CreateC = () => {
       <div className="card-body">
         <div className="mb-3">
           <label className="form-label">Number</label>
-          <button onClick={generateNumber}>Generate</button>
           <div>{number ? number : "###"}</div>
         </div>
         <div className="mb-3 size-select">
           <label className="form-label">Size</label>
           <select value={size} onChange={(e) => setSize(e.target.value)}>
+            <option>Choose size</option>
             {sizes.map((size, i) => (
               <option key={i} value={size}>
                 {size}

@@ -129,12 +129,13 @@ app.post("/home/containers", (req, res) => {
   });
 });
 
-// READ CONTAINER for admin
+// READ CONTAINER for admin to create a box
 
 app.get("/home/containers", (req, res) => {
   const sql = `
-    SELECT id, number, size
+    SELECT id, number, size, item_count
     FROM containers
+    WHERE (size = 'S' AND item_count < 2) OR  (size = 'M' AND item_count < 4) OR (size = 'L' AND item_count < 6)
     `;
   con.query(sql, (err, result) => {
     if (err) throw err;
@@ -142,7 +143,7 @@ app.get("/home/containers", (req, res) => {
   });
 });
 
-//READ CONTAINERS WITH ITEMS for users
+//READ CONTAINERS WITH ITEMS
 
 app.get("/home/joined", (req, res) => {
   const sql = `
@@ -158,23 +159,22 @@ app.get("/home/joined", (req, res) => {
   });
 });
 
-// UPDATE CONTAINER for admin
+// UPDATE CONTAINER for admin (add count_item + 1)
 
-// app.put("/home/savivaldybes/:id", (req, res) => {
-//   const sql = `
-//     UPDATE savivaldybes
-//     SET title = ?, image = ?
-//     WHERE id = ?
-//     `;
-//   con.query(
-//     sql,
-//     [req.body.title, req.body.image, req.params.id],
-//     (err, result) => {
-//       if (err) throw err;
-//       res.send(result);
-//     }
-//   );
-// });
+// (EDIT ratings (for users))
+
+app.put("/home/containers/:id", (req, res) => {
+  const sql = `
+    UPDATE containers
+    SET 
+    item_count = item_count + ?
+    WHERE id = ?
+    `;
+  con.query(sql, [req.body.num, req.params.id], (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
 
 // DELETE CONTAINER for admin
 

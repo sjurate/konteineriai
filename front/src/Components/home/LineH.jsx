@@ -24,8 +24,8 @@ const LineH = ({ container }) => {
                       <div className="line_content_info">
                         <div>{b.item_title}</div>
                         <div>{b.weight}</div>
-                        <div>{b.flammable ? "True" : "False"}</div>
-                        <div>{b.short_term ? "True" : "False"}</div>
+                        <div>{b.flammable ? "Yes" : "No"}</div>
+                        <div>{b.short_term ? "Yes" : "No"}</div>
                       </div>
                     </li>
                   ) : null

@@ -2,7 +2,13 @@ import React, { useContext } from "react";
 import BoxesContext from "../../Contexts/BoxesContext";
 
 const LineB = ({ box }) => {
-  const { setDeleteData, setModalData } = useContext(BoxesContext);
+  const { setDeleteData, setModalData, setCountData } =
+    useContext(BoxesContext);
+
+  const deleteBox = () => {
+    setDeleteData(box);
+    setCountData({ id: box.id, num: Number(-1) });
+  };
 
   return (
     <li className="list-group-item">
@@ -37,7 +43,7 @@ const LineB = ({ box }) => {
             <button
               type="button"
               className="btn btn-outline-danger"
-              onClick={() => setDeleteData(box)}
+              onClick={deleteBox}
             >
               Delete
             </button>

@@ -87,20 +87,21 @@ const EditB = () => {
               <div className="mb-3">
                 <label className="form-label">Weight</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={weight}
                   onChange={(e) => setWeight(e.target.value)}
                 />
-              </div>{" "}
+              </div>
               <div className="mb-3">
                 <label className="form-label">Is item FLAMMABLE?</label>
                 <select
                   value={flammable}
                   onChange={(e) => setFlammable(e.target.value)}
                 >
-                  <option value={0}>No</option>
-                  <option value={1}>Yes</option>
+                  <option>Choose from list</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
                 </select>
               </div>
               <div className="mb-3">
@@ -109,8 +110,9 @@ const EditB = () => {
                   value={short_term}
                   onChange={(e) => setShort_term(e.target.value)}
                 >
-                  <option value={0}>No</option>
-                  <option value={1}>Yes</option>
+                  <option>Choose from list</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
                 </select>
               </div>
               <div className="mb-3">
@@ -119,9 +121,11 @@ const EditB = () => {
                   value={container_id}
                   onChange={(e) => setContainer_id(e.target.value)}
                 >
-                  {containers.map((c, i) => (
-                    <option key={i} value={c.container_id}>
-                      {c.number}
+                  <option>Choose from list</option>
+
+                  {containers?.map((c, i) => (
+                    <option key={i} value={c.id}>
+                      {c.id}
                     </option>
                   ))}
                 </select>

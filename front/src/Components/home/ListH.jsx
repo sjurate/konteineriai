@@ -37,10 +37,6 @@ const ListH = () => {
     <>
       <div className="card m-4">
         <h5 className="card-header">Containers:</h5>
-
-        {/* <small onClick={resetFilter} className="click-link reset-filter">
-          rodyti visus komentarus
-        </small> */}
         <div className="card-body">
           <ul className="list-group">
             {containers?.map((c) => (

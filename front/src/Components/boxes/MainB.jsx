@@ -13,8 +13,19 @@ const MainB = () => {
   const [deleteData, setDeleteData] = useState(null);
   const [modalData, setModalData] = useState(null);
   const [editData, setEditData] = useState(null);
+  const [increaseData, setIncreaseData] = useState(null);
 
   const [lastUpdate, setLastUpdate] = useState(Date.now());
+
+  // READ CONTAINERS
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3003/home/containers", authConfig())
+      .then((res) => {
+        setContainers(res.data);
+      });
+  }, [lastUpdate]);
 
   // CREATE ITEM
 
@@ -29,22 +40,28 @@ const MainB = () => {
       });
   }, [createData]);
 
+  useEffect(() => {
+    if (null === increaseData) {
+      return;
+    }
+    console.log(increaseData);
+    axios
+      .put(
+        "http://localhost:3003/home/containers/" + increaseData.id,
+        increaseData,
+        authConfig()
+      )
+      .then((res) => {
+        setLastUpdate(Date.now());
+      });
+  }, [increaseData]);
+
   // READ ITEMS
 
   useEffect(() => {
     axios.get("http://localhost:3003/home/boxes", authConfig()).then((res) => {
       setBoxes(res.data);
     });
-  }, [lastUpdate]);
-
-  // READ CONTAINERS
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3003/home/containers", authConfig())
-      .then((res) => {
-        setContainers(res.data);
-      });
   }, [lastUpdate]);
 
   // UPDATE ITEM
@@ -88,6 +105,7 @@ const MainB = () => {
         editData,
         setModalData,
         modalData,
+        setIncreaseData,
       }}
     >
       <div className="container">
